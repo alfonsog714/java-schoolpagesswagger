@@ -26,7 +26,7 @@ public class StudentController
     // Please note there is no way to add students to course yet!
 
     @GetMapping(value = "/students", produces = {"application/json"})
-    public ResponseEntity<?> listAllStudents(@PageableDefault(page = 0, size = 5) Pageable pageable)
+    public ResponseEntity<?> listAllStudents(@PageableDefault(page = 0, size = 2) Pageable pageable)
     {
         List<Student> myStudents = studentService.findAll(pageable);
         return new ResponseEntity<>(myStudents, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class StudentController
                 produces = {"application/json"})
     public ResponseEntity<?> getStudentByNameContaining(
             @PathVariable String name,
-            @PageableDefault(page = 0, size = 5) Pageable pageable)
+            @PageableDefault(page = 0, size = 2) Pageable pageable)
     {
         List<Student> myStudents = studentService.findStudentByNameLike(name, pageable);
         return new ResponseEntity<>(myStudents, HttpStatus.OK);

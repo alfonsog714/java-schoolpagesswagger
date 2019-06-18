@@ -2,6 +2,7 @@ package com.lambdaschool.school.controller;
 
 import com.lambdaschool.school.model.Student;
 import com.lambdaschool.school.service.StudentService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,6 +26,16 @@ public class StudentController
 
     // Please note there is no way to add students to course yet!
 
+    @ApiOperation(value = "Returns all students", response = Student.class, responseContainer = "List")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page."),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Sorting criteria in the format: property(,asc|desc). " +
+                            "Default sort order is ascending. " +
+                            "Multiple sort criteria are supported.")})
     @GetMapping(value = "/students", produces = {"application/json"})
     public ResponseEntity<?> listAllStudents(@PageableDefault(page = 0, size = 2) Pageable pageable)
     {
@@ -32,6 +43,10 @@ public class StudentController
         return new ResponseEntity<>(myStudents, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Retrieves a student associated with an ID", response = Student.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Restaurant Found", response = Student.class),
+    })
     @GetMapping(value = "/Student/{StudentId}",
                 produces = {"application/json"})
     public ResponseEntity<?> getStudentById(
@@ -42,7 +57,7 @@ public class StudentController
         return new ResponseEntity<>(r, HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "Returns a list of students with a name similar to the one inputted", response = Student.class, responseContainer = "List")
     @GetMapping(value = "/student/namelike/{name}",
                 produces = {"application/json"})
     public ResponseEntity<?> getStudentByNameContaining(

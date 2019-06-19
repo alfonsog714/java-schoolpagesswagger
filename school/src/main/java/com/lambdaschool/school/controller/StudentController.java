@@ -68,7 +68,7 @@ public class StudentController
         return new ResponseEntity<>(myStudents, HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "Adds a new students to the database", response = void.class)
     @PostMapping(value = "/Student",
                  consumes = {"application/json"},
                  produces = {"application/json"})
@@ -87,6 +87,7 @@ public class StudentController
     }
 
 
+    @ApiOperation(value = "Updates an existing student", response = void.class)
     @PutMapping(value = "/Student/{Studentid}")
     public ResponseEntity<?> updateStudent(
             @RequestBody
@@ -99,6 +100,7 @@ public class StudentController
     }
 
 
+    @ApiOperation(value = "Deletes an existing student", response = void.class)
     @DeleteMapping("/Student/{Studentid}")
     public ResponseEntity<?> deleteStudentById(
             @PathVariable
